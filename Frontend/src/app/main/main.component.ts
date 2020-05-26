@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
 import { Movie } from '../models/Movie';
 import { Title } from '@angular/platform-browser';
+import { error } from 'protractor';
 
 @Component({
   selector: 'app-main',
@@ -41,7 +42,12 @@ export class MainComponent implements OnInit {
   }
   deletedMovie(movie: Movie)
   {
-    console.log('delete', movie.title);
+    this.apiService.deleteMovie(movie.id).subscribe(
+      data => {
+        this.movies=this.movies.filter(mov => mov.id !== movie.id);
+      },
+      error=>console.log(error)
+    )
   }
 }
 
